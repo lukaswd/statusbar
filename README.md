@@ -11,7 +11,7 @@ python3 -m pip install statusbar
 From source
 
 ```
-git clone
+git clone https://github.com/lukaswd/statusbar.git
 cd statusbar
 python3 -m pip install .
 ```
