@@ -32,7 +32,7 @@ class StatusBar:
         self._original_stderr = sys.stderr
         self._lock = False
 
-        self._new_lines = 0
+        self._new_line = False
 
     def _get_fields(self, format):
         return [field_name for _, field_name, _, _ in _string.formatter_parser(format)]
@@ -67,7 +67,7 @@ class StatusBar:
         sys.stderr = self
 
         # Save current position
-        self._original_stdout.write(f"\x1b[s")
+        self._original_stdout.write(f"\x1b7")
 
         self._print_status_bar(new_line=False)
 
@@ -80,8 +80,8 @@ class StatusBar:
         sys.stderr = self._original_stderr
 
     def write(self, text):
-        if text == "\n":
-            self._new_lines += 1
+        if text == "\n" and not self._new_line:
+            self._new_line = True
             return
 
         while self._lock:
@@ -92,20 +92,21 @@ class StatusBar:
         # Set cursor to the beginning of the line and delete the current line
         self._original_stdout.write(f"\r\x1b[2K")
         # Restore position
-        self._original_stdout.write(f"\x1b[u")
-        # Write the new line
-        for _ in range(self._new_lines):
-            self._original_stdout.write("\n")
-        # Reset new lines
-        self._new_lines = 0
-        # Write the text
-        self._original_stdout.write(text)
-        # Save current position
-        self._original_stdout.write(f"\x1b[s")
+        self._original_stdout.write(f"\x1b8")
         # Erase from cursor to end of line
         self._original_stdout.write(f"\x1b[0K")
 
+        # Write the new line if needed
+        if self._new_line:
+            self._original_stdout.write("\n")
+            # Reset new line
+            self._new_line = False
         
+        # Write the text
+        self._original_stdout.write(text)
+        # Save current position
+        self._original_stdout.write(f"\x1b7")
+
         self._print_status_bar()
 
         self._lock = False
