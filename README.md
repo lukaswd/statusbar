@@ -24,7 +24,7 @@ import time
 from pystatusbar import StatusBar
 
 if __name__ == '__main__':
-    format_start = " This is a test {WORD} bar with lines: {i}"
+    format_start = " This is a test {WORD}bar with lines: {i}"
     format_end = " {time} "
 
     bar = StatusBar(format_start=format_start, format_end=format_end, i=0, WORD="")
@@ -39,6 +39,24 @@ if __name__ == '__main__':
 
         time.sleep(0.1)
     bar.stop()
+```
+
+With the output:
+
+```
+Test Line 0
+Test Line 1
+Test Line 2
+Test Line 3
+Test Line 4
+Test Line 5
+Test Line 6
+Test Line 7
+Test Line 8
+Test Line 9
+Test Line 10
+Test Line 11
+ This is a test bar with lines: 10                         1.2s 
 ```
 
 The bar also works with sys.stdout.write and the python logging library

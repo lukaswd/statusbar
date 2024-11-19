@@ -3,7 +3,7 @@ import time
 from pystatusbar import StatusBar
 
 if __name__ == '__main__':
-    format_start = " This is a test {WORD} bar with lines: {i}"
+    format_start = " This is a test {WORD}bar with lines: {i}"
     format_end = " {time} "
 
     bar = StatusBar(format_start=format_start, format_end=format_end, i=0, WORD="")
