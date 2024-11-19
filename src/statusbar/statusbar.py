@@ -66,10 +66,11 @@ class StatusBar:
         sys.stdout = self
         sys.stderr = self
 
-        # Save current position
-        self._original_stdout.write(f"\x1b7")
-
+        # Print the status bar for the first time
         self._print_status_bar(new_line=False)
+
+        # Set new line to True to avoid printing the first line to the previous line (e.g. the command)
+        self._new_line = True
 
         if self._allow_threading:
             self._thread = threading.Thread(target=self._worker)
@@ -92,7 +93,8 @@ class StatusBar:
         # Set cursor to the beginning of the line and delete the current line
         self._original_stdout.write(f"\r\x1b[2K")
         # Restore position
-        self._original_stdout.write(f"\x1b8")
+        self._original_stdout.write(f"\x1b[1A")
+        self._original_stdout.write(f"\x1b[999C")
         # Erase from cursor to end of line
         self._original_stdout.write(f"\x1b[0K")
 
@@ -101,11 +103,8 @@ class StatusBar:
             self._original_stdout.write("\n")
             # Reset new line
             self._new_line = False
-        
         # Write the text
         self._original_stdout.write(text)
-        # Save current position
-        self._original_stdout.write(f"\x1b7")
 
         self._print_status_bar()
 
