@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "statusbar"
+name = "pystatusbar"
 version = "0.0.4"
 authors = [
   { name="Lukas Wedi"},

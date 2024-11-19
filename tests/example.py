@@ -1,6 +1,6 @@
 import time
 
-from statusbar import StatusBar
+from pystatusbar import StatusBar
 
 if __name__ == '__main__':
     format_start = " This is a test {WORD} bar with lines: {i}"

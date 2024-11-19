@@ -5,7 +5,7 @@ Python package that enables the easy creation of a statusbar. The creation of a 
 ## Installation
 
 ```
-python3 -m pip install statusbar
+python3 -m pip install pystatusbar
 ```
 
 From source
@@ -21,7 +21,7 @@ python3 -m pip install .
 ``` python
 import time
 
-from statusbar import StatusBar
+from pystatusbar import StatusBar
 
 if __name__ == '__main__':
     format_start = " This is a test {WORD} bar with lines: {i}"
