@@ -6,7 +6,12 @@ import threading
 import _string
 
 class StatusBar:
-    def __init__(self, format_start: str, format_end: str, allow_threading: bool = False, **kwargs) -> None:
+    def __init__(self, format_start: str = "", 
+                 format_end: str = "", 
+                 allow_threading: bool = False,
+                 fill: str = " ", 
+                 **kwargs) -> None:
+        
         # This has to be at the front to avoid AttributeError when calling __del__
         self._allow_threading = allow_threading
         if self._allow_threading and not self._has_time:
@@ -14,6 +19,8 @@ class StatusBar:
 
         self._format_start = format_start
         self._format_end = format_end
+
+        self._fill = fill
 
         fields = self._get_fields(format_start) + self._get_fields(format_end)
             
@@ -133,7 +140,7 @@ class StatusBar:
                 self._fields["time"] = f"{seconds:02.1f}s"
 
         space_width = terminal_width - len((self._format_start + self._format_end).format(**self._fields))
-        self._original_stdout.write((("\n" if new_line else "")  + self._format_start + " " * (space_width if space_width > -1 else 0) + self._format_end).format(**self._fields))
+        self._original_stdout.write((("\n" if new_line else "")  + self._format_start + self._fill * (space_width if space_width > -1 else 0) + self._format_end).format(**self._fields))
         self.flush()
 
     def __del__(self):
